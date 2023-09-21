@@ -9,6 +9,15 @@
 # BGN: Base
   [home]
     other = "首頁"
+    
+  [books]
+    other = "書籍"
+    
+  [archives]
+    other = "歸檔"
+    
+  [about]
+    other = "關於"
 
   [categories]
     one = "分類"

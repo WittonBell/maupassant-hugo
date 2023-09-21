@@ -9,6 +9,15 @@
 # BGN: Base
   [home]
     other = "Home"
+    
+  [books]
+    other = "Books"
+    
+  [archives]
+    other = "Archives"
+    
+  [about]
+    other = "About"
 
   [categories]
     one = "Category"
