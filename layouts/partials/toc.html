@@ -1,9 +1,11 @@
 {{ if or .Params.toc (and .Site.Params.toc (ne .Params.toc false)) -}}
+<!-- 在没有目录项时 `.TableOfContents` 的内容为`<nav id="TableOfContents"></nav>`，长度为32  -->
+{{ if gt (len .TableOfContents) 32 }}
 <style type="text/css">
     .post-toc {
         position: fixed;
-        width: 200px;
-        margin-left: -210px;
+        width: 300px;
+        margin-left: -310px;
         padding: 5px 10px;
         font-family: Athelas, STHeiti, Microsoft Yahei, serif;
         font-size: 12px;
@@ -38,14 +40,16 @@
     }
 
     .post-toc .post-toc-content>nav>ul {
-        margin: 10px 0;
+        margin: 1px 0;
+        list-style:none;
     }
 
     .post-toc .post-toc-content ul {
-        padding-left: 20px;
+        padding-left: 1px;
         list-style: square;
         margin: 0.5em;
         line-height: 1.8em;
+        list-style:none;
     }
 
     .post-toc .post-toc-content ul ul {
@@ -59,12 +63,14 @@
         }
     }
 </style>
+
 <div class="post-toc" style="position: absolute; top: 188px;">
     <h2 class="post-toc-title">{{ i18n "toc" }}</h2>
     <div class="post-toc-content">
         {{.TableOfContents}}
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var postToc = $(".post-toc");
@@ -96,4 +102,5 @@
         }
     })
 </script>
+{{ end }}
 {{- end }}
