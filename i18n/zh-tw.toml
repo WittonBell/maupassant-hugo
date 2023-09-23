@@ -36,6 +36,13 @@
 
   [toc]
     other = "文章目錄"
+
+  [copy]
+    other = "複製"
+
+  [copied]
+    other = "已複製"
+
 # END: Base
 
 # BGN: Theme

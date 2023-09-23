@@ -37,6 +37,13 @@
 
   [toc]
     other = "文章目录"
+
+  [copy]
+    other = "复制"
+
+  [copied]
+    other = "已复制"
+
 # END: Base
 
 # BGN: Theme

@@ -22,6 +22,7 @@
   [categories]
     one = "Category"
     other = "Categories"
+
   [tags]
     one = "Tag"
     other = "Tags"
@@ -31,11 +32,19 @@
 
   [next]
     other = "Next"
+
   [previous]
     other = "Previous"
 
   [toc]
     other = "Table of Contents"
+
+  [copy]
+    other = "copy"
+
+  [copied]
+    other = "copied"
+    
 # END: Base
 
 # BGN: Theme

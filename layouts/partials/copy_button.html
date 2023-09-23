@@ -32,12 +32,12 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
+        copybutton.innerHTML = '{{ i18n "copy" }}';
 
         function copyingDone() {
-            copybutton.innerHTML = 'copied!';
+            copybutton.innerHTML = '{{ i18n "copied" }}';
             setTimeout(() => {
-                copybutton.innerHTML = 'copy';
+                copybutton.innerHTML = '{{ i18n "copy" }}';
             }, 2000);
         }
 
