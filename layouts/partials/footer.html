@@ -23,9 +23,7 @@
     {{- if .Page.Store.Get "hasMermaid" -}}
         <!-- Include mermaid only first time -->
         <script src="{{ "mermaid.min.js" | relURL }}"></script>
-        {{- with resources.Get "mermaid.json" -}}
-            <script>mermaid.initialize({ startOnLoad: true })</script>
-        {{- end -}}
+        <script>mermaid.initialize({ startOnLoad: true })</script>
     {{- end -}}
     {{ $defaultCdnJsSite := "cdnjs.cloudflare.com" }}
     <!-- graphviz -->
@@ -123,10 +121,17 @@
     <script type="text/javascript">
         window.MathJax = {
             tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\[','\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["mhchem.js","AMSmath.js", "AMSsymbols.js"]
                 }
-            };
+            }
+        };
     </script>
     <script src='//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
