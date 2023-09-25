@@ -9,13 +9,13 @@
 # BGN: Base
   [home]
     other = "首頁"
-    
+
   [books]
     other = "書籍"
-    
+
   [archives]
     other = "歸檔"
-    
+
   [about]
     other = "關於"
 
@@ -42,6 +42,12 @@
 
   [copied]
     other = "已複製"
+
+  [words]
+    other = "字"
+
+  [minutes]
+    other = "分鐘"
 
 # END: Base
 

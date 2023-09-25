@@ -9,13 +9,13 @@
 # BGN: Base
   [home]
     other = "Home"
-    
+
   [books]
     other = "Books"
-    
+
   [archives]
     other = "Archives"
-    
+
   [about]
     other = "About"
 
@@ -44,7 +44,13 @@
 
   [copied]
     other = "copied"
-    
+
+  [words]
+    other = "Words"
+
+  [minutes]
+    other = "minutes"
+
 # END: Base
 
 # BGN: Theme

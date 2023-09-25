@@ -6,9 +6,19 @@
 {{ end }}
 {{ with .Params.Categories }}
 <div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  {{ range . }}
-    <a href='{{ "categories/" | relURL }}{{ . | urlize }}' target="_blank">{{ . }}</a>
+  <span>&nbsp;|&nbsp;</span>
+  {{- range $index, $category := . -}}
+    {{- if ne $index 0 -}}
+      {{- $.Site.Params.categoryDelimiter | default "/" -}}
+    {{- end -}}
+    {{- $path := (urls.Parse ($category | urlize)).Path -}}
+    {{- with $.Site.GetPage (printf `/categories/%s` $path) -}}
+        <a href="{{- .RelPermalink -}}" class="category-link p-category" target="_blank">
+            {{- .LinkTitle | default $path -}}
+        </a>
+    {{- end -}}
   {{ end }}
 </div>
+<span class="post-meta meta-category">&nbsp;|&nbsp; {{ $.WordCount }} {{ i18n "words" }}</span>
+<span class="post-meta meta-category">&nbsp;|&nbsp; {{ $.ReadingTime }}&nbsp;{{ i18n "minutes" }}</span>
 {{ end }}
