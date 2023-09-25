@@ -1,0 +1,23 @@
+
+{{ if in (where (where .Site.Pages "Type" "in" (slice "post" "posts")) "Kind" "page") .PrevPage }}
+{{ .Scratch.Set "prev" .PrevPage }}
+{{ end }}
+{{ if in (where (where .Site.Pages "Type" "in" (slice "post" "posts")) "Kind" "page") .NextPage }}
+{{ .Scratch.Set "next" .NextPage }}
+{{end}}
+{{ $prev := .Scratch.Get "prev" }}
+{{ $next := .Scratch.Get "next" }}
+{{ if or $prev $next }}
+	<ul class="post-nav">
+		{{ if $next }}
+			<li class="post-nav-prev">
+				<a href="{{ $next.RelPermalink }}" rel="prev">&lt; {{ (partial "utils/title.html" (dict "$" $next "title" $next.LinkTitle)).htmlTitle }}</a>
+			</li>
+		{{ end }}
+		{{ if $prev }}
+			<li class="post-nav-next">
+				<a href="{{ $prev.RelPermalink }}" rel="next">{{ (partial "utils/title.html" (dict "$" $prev "title" $prev.LinkTitle)).htmlTitle }} &gt;</a>
+			</li>
+		{{ end }}
+	</ul>
+{{ end }}
