@@ -20,14 +20,13 @@
 </footer>
 
 {{ if .IsPage }}
-    {{ if .Page.Store.Get "hasMermaid" }}
+    {{- if .Page.Store.Get "hasMermaid" -}}
         <!-- Include mermaid only first time -->
         <script src="{{ "mermaid.min.js" | relURL }}"></script>
-        {{ with resources.Get "mermaid.json" }}
+        {{- with resources.Get "mermaid.json" -}}
             <script>mermaid.initialize({ startOnLoad: true })</script>
-        {{ end }}
-    {{ end }}
-
+        {{- end -}}
+    {{- end -}}
     {{ $defaultCdnJsSite := "cdnjs.cloudflare.com" }}
     <!-- graphviz -->
     {{- if and (or .Params.graphviz.enable (and .Site.Params.graphviz.enable (ne .Params.graphviz.enable false))) (or .IsPage .IsHome) -}}
