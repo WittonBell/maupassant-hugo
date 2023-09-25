@@ -1,3 +1,4 @@
+{{ if in (where (where .Site.Pages "Type" "in" (slice "post" "posts")) "Kind" "page") .Page }}
 {{ $related := .Site.RegularPages.Related . | first 5 }}
 {{ with $related }}
 <div class="post-archive">
@@ -8,4 +9,5 @@
         {{ end }}
     </ul>
 </div>
+{{ end }}
 {{ end }}

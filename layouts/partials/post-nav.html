@@ -1,4 +1,4 @@
-
+{{ if in (where (where .Site.Pages "Type" "in" (slice "post" "posts")) "Kind" "page") .Page }}
 {{ if in (where (where .Site.Pages "Type" "in" (slice "post" "posts")) "Kind" "page") .PrevPage }}
 {{ .Scratch.Set "prev" .PrevPage }}
 {{ end }}
@@ -20,4 +20,5 @@
 			</li>
 		{{ end }}
 	</ul>
+{{ end }}
 {{ end }}
