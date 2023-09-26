@@ -19,8 +19,8 @@
     </div>
 </footer>
 
-{{ if .IsPage }}
-    {{ $defaultCdnJsSite := "cdnjs.cloudflare.com" }}
+{{- if .IsPage -}}
+    {{- $defaultCdnJsSite := "cdnjs.cloudflare.com" -}}
     {{- if .Page.Store.Get "hasMermaid" -}}
         <!-- Include mermaid only first time -->
         <script type="module">
@@ -29,33 +29,32 @@
         </script>
     {{- end -}}
     <!-- graphviz -->
+    {{- if .Page.Store.Get "hasDot" -}}
     {{- if and (or .Params.graphviz.enable (and .Site.Params.graphviz.enable (ne .Params.graphviz.enable false))) (or .IsPage .IsHome) -}}
         <script type="text/javascript" src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/viz.js/1.7.1/viz.js"></script>
         <script type="text/javascript">
-            (function () {
-                if (!window.Viz) return;
-                var vizPrefix = "language-viz-";
-                var i = 0;
-                Array.prototype.forEach.call(document.querySelectorAll("code[class^=" + vizPrefix + "]"), function (block) {
-                    var engine;
-                    block.getAttribute("class").split(" ").forEach(function (cls) {
-                        if (cls.startsWith(vizPrefix)) {
-                            engine = cls.substr(vizPrefix.length);
-                        }
-                    });
-                    const rootElement = block.parentNode;
-                    var image = new DOMParser().parseFromString(Viz(block.innerText, { format: "svg", engine: engine }), "image/svg+xml");
-                    const container = document.createElement('div');
-                    container.className = 'align-center';
-                    container.setAttribute("style", "overFlow-x:auto");
-                    container.appendChild(image.documentElement);
-                    rootElement.parentNode.replaceChild(container, rootElement);
-                });
-            })();
+            String.prototype.replaceAll = function(search, replacement) {
+                var target = this;
+                return target.split(search).join(replacement);
+              };
+          
+              let vizObjects = document.querySelectorAll('.graphviz, .dot')
+          
+              for (let item of vizObjects) {
+                let svg = undefined
+                try {
+                  svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+                } catch(e) {
+                  svg = `<pre class="error">${e}</pre>`
+                }
+                item.outerHTML = svg
+              }
         </script>
+    {{- end -}}
     {{- end -}}
 
     <!-- flowchart -->
+    {{- if .Page.Store.Get "hasFlowchart" -}}
     {{- if and (or .Params.flowchartDiagrams.enable (and .Site.Params.flowchartDiagrams.enable (ne .Params.flowchartDiagrams.enable false))) (or .IsPage .IsHome) -}}
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/raphael/2.2.8/raphael.min.js" crossorigin="anonymous"></script>
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/flowchart/1.12.2/flowchart.min.js" crossorigin="anonymous"></script>
@@ -83,9 +82,11 @@
             })();
         </script>
     {{- end -}}
+    {{- end -}}
 
     <!-- sequence必须要在flow加载之后，否则sequence渲染不成功，原因待分析 -->
     <!-- js-sequence-diagrams -->
+    {{- if .Page.Store.Get "hasSeq" -}}
     {{- if and (or .Params.sequenceDiagrams.enable (and .Site.Params.sequenceDiagrams.enable (ne .Params.sequenceDiagrams.enable false))) (or .IsPage .IsHome) -}}
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/webfont/1.6.28/webfontloader.js" crossorigin="anonymous"></script>
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/snap.svg/0.5.1/snap.svg-min.js" crossorigin="anonymous"></script>
@@ -119,10 +120,11 @@
         })();
         </script>
     {{- end -}}
+    {{- end -}}
     {{- if .Site.Params.fancybox -}}
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     {{- end -}}
-{{ end }}
+{{- end }}
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='{{ "js/totop.js?v=0.0.0" | relURL }}' async=""></script>
