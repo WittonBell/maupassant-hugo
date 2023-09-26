@@ -1,6 +1,6 @@
-{{ define "content"}}
+{{ define "content" -}}
 <div class="res-cons">
-    {{ partial "toc" . }}
+    {{- partial "toc" . -}}
     <article class="post">
         <header>
             <h1 class="post-title">{{ .Title }}</h1>
@@ -28,7 +28,7 @@
 
         {{ partial "copyright" .}}
 
-        {{ partial "related" . }}
+        {{ partial "related" . -}}
 
         <div class="post-meta meta-tags">
             {{ if and (isset .Params "tags") .Params.tags }}

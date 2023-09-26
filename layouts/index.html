@@ -1,7 +1,7 @@
 {{ define "content"}}
 <div class="res-cons">
     {{- $paginator := .Paginate (where .Site.RegularPages "Type" "in" (slice "post" "posts")) }}
-    {{ range $index,$data := $paginator.Pages }}
+    {{- range $index,$data := $paginator.Pages }}
     {{if not .Params.hiddenFromHomePage }}
     <article class="post">
         <header>
@@ -19,4 +19,4 @@
     {{ end }}
     {{ partial "paginator" . }}
 </div>
-{{ end }}
+{{- end }}
