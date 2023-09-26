@@ -5,56 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="no-referrer">
 
-    {{ if .IsHome -}}
-    {{ if .Site.Params.subtitle -}}
+    {{- if .IsHome -}}
+    {{- if .Site.Params.subtitle -}}
     <title>{{ .Site.Title }} | {{ .Site.Params.subtitle}}</title>
     <meta property="og:title" content="{{ .Site.Title }} | {{ .Site.Params.subtitle}}">
-    {{ else -}}
+    {{- else -}}
     <title>{{ .Site.Title }}</title>
     <meta property="og:title" content="{{ .Site.Title }}">
-    {{ end -}}
+    {{- end -}}
     <meta property="og:type" content="website">
     <meta name="Keywords" content="{{.Site.Params.keywords}}">
     <meta name="description" content="{{ .Site.Params.description }}">
-    {{- else -}}
+    {{ else -}}
     <title>{{ .Title }} | {{ .Site.Title }}</title>
     <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
     <meta property="og:type" content="article">
-        {{ with .Params.date }}
+    {{ with .Params.date -}}
     <meta property="article:published_time" content='{{ .Format "2006-01-02T15:04:05+08:00" }}'>
-        {{ end }}
-        {{ with .Params.lastmod }}
+    {{ end -}}
+    {{ with .Params.lastmod -}}
     <meta property="article:modified_time" content='{{ .Format "2006-01-02T15:04:05+08:00" }}'>
-        {{ end }}
+    {{ end -}}
     <meta name="Keywords" content="{{ if .Keywords }}{{ .Keywords }}{{ else }}{{ .Site.Params.keywords }}{{ end }}">
     <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Title }}{{ end }}">
-        {{ if .Params.author -}}
+    {{ if .Params.author -}}
     <meta name="author" content="{{ .Params.author }}">
-        {{ else }}
+    {{- else -}}
     <meta name="author" content="{{ .Site.Author.name }}">
-        {{- end }}
-    {{- end }}
+    {{- end -}}
+    {{ end }}
     <meta property="og:url" content="{{ .Permalink }}">
-    <link rel="shortcut icon" href='{{ "favicon.ico" | relURL }}'  type="image/x-icon">
+    <link rel="shortcut icon" href='{{ "favicon.ico" | relURL }}' type="image/x-icon">
 
     <link rel="stylesheet" href='{{ "css/normalize.css" | relURL}}'>
     <link rel="stylesheet" href='{{ "css/style.css" | relURL }}'>
     <link rel="stylesheet" href='{{ "css/post-nav.css" | relURL }}'>
     {{ range .AlternativeOutputFormats -}}
-        {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ printf `
+    <link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
     {{ end -}}
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    {{ if .Site.Params.googleAd }}
-    <script data-ad-client="{{ .Site.Params.googleAd }}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    {{ end }}
+    {{ if .Site.Params.googleAd -}}
+    <script data-ad-client="{{ .Site.Params.googleAd }}" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {{- end -}}
 
-    {{if .Site.Params.fancybox }}
-        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
-    {{ end }}
+    {{ if .Site.Params.fancybox -}}
+    <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    {{- end -}}
+
+    <script>
+        MathJax = {
+            loader: {
+                load: [
+                    '[tex]/all-packages',
+                ]
+            },
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [             // start/end delimiter pairs for display math
+                    ['$$', '$$'],
+                    ['\\[', '\\]']
+                ],
+                processEscapes: true,      // use \$ to produce a literal dollar sign
+                processEnvironments: false, // process \begin{xxx}...\end{xxx} outside math mode
+                processRefs: true,         // process \ref{...} outside of math mode
+                digits: /^(?:[0-9]+(?:\{,\}[0-9]{3})*(?:\.[0-9]*)?|\.[0-9]+)/,
+                // pattern for recognizing numbers
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            options: {
+                enableMenu: false,          // set to false to disable the menu
+                skipHtmlTags: [            //  HTML tags that won't be searched for math
+                    'script', 'noscript', 'style', 'textarea', 'pre',
+                    'code', 'annotation', 'annotation-xml'
+                ],
+                includeHtmlTags: {         //  HTML tags that can appear within math
+                    br: '\n', wbr: '', '#comment': ''
+                }
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <!-- custom css -->
-    {{ range .Site.Params.customCSS }}
-        <link rel="stylesheet" href='{{ "/css/" | relURL }}{{ . }}'>
-    {{ end }}
+    {{- range .Site.Params.customCSS -}}
+    <link rel="stylesheet" href='{{ "/css/" | relURL }}{{ . }}'>
+    {{- end -}}
 </head>
