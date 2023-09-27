@@ -1,0 +1,37 @@
+{{- if or (.Page.Store.Get "hasEcharts") (.Page.Store.Get "hasChart") -}}
+{{- $defaultCdnJsSite := "cdnjs.cloudflare.com" -}}
+<script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/echarts/4.3.0/echarts.min.js"
+    crossorigin="anonymous"></script>
+<script>
+    (function () {
+        if (!window.echarts) return;
+        const blocks = document.querySelectorAll('pre.echarts, pre.chart');
+        for (let i = 0; i < blocks.length; i++) {
+            const block = blocks[i];
+            const parentNode = block.parentNode;
+            const container = document.createElement('div');
+            const id = `js-echarts-${i}`;
+            container.id = id;
+            container.className = 'align-center';
+            container.setAttribute("style", "width: 800px;height:600px;");
+            try {
+                var txt = ""
+                for (let j = 0; j < block.childNodes.length; j++) {
+                    if (block.childNodes[j].nodeValue != null) {
+                        txt += block.childNodes[j].nodeValue
+                    } else {
+                        txt += block.childNodes[j].outerHTML
+                    }
+                }
+                var chart = echarts.init(container)
+                var obj = eval("(" + txt + ")")
+                var s = JSON.stringify(obj)
+                chart.setOption(JSON.parse(s))
+                parentNode.replaceChild(container, block);
+            } catch(e) {
+                parentNode.outerHTML = `<pre class="error">${e}</pre>`
+            }
+        }
+    })();
+</script>
+{{- end -}}
