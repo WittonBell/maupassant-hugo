@@ -1,0 +1,13 @@
+{{- if .Page.Store.Get "hasDiagon" -}}
+<script src='{{ "js/diagon/diagon.js" | relURL }}'></script>
+<script>
+    const diagon = {
+            translate: () => { },
+            highlight: () => { },
+            API: () => { },
+        }
+    diagon.translate = Module.cwrap('translate', 'string', ['string', 'string', 'string']);
+    diagon.highlight = Module.cwrap('highlight', 'string', ['string', 'string']);
+    diagon.API = Module.cwrap('API', 'string', []);
+</script>
+{{- end -}}

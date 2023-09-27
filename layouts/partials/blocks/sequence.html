@@ -1,0 +1,38 @@
+<!-- js-sequence-diagrams -->
+{{- if or (.Page.Store.Get "hasSequence") (.Page.Store.Get "hasSeq") -}}
+{{- if and (or .Params.sequenceDiagrams.enable (and .Site.Params.sequenceDiagrams.enable (ne .Params.sequenceDiagrams.enable false))) (or .IsPage .IsHome) -}}
+    {{- $defaultCdnJsSite := "cdnjs.cloudflare.com" -}}
+    <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/raphael/2.2.8/raphael.min.js" crossorigin="anonymous"></script>
+    <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/webfont/1.6.28/webfontloader.js" crossorigin="anonymous"></script>
+    <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/snap.svg/0.5.1/snap.svg-min.js" crossorigin="anonymous"></script>
+    <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/underscore.js/1.9.1/underscore-min.js" crossorigin="anonymous"></script>
+    <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js" crossorigin="anonymous"></script>
+    <script>
+    {{- if .Params.sequenceDiagrams.options -}}
+        window.sequenceDiagramsOptions = {{ .Params.sequenceDiagrams.options | safeJS }};
+    {{- else if .Site.Params.sequenceDiagrams.options -}}
+        window.sequenceDiagramsOptions = {{ .Site.Params.sequenceDiagrams.options | safeJS }};
+    {{- end -}}
+    (function () {
+        if (!window.Diagram) return;
+        const blocks = document.querySelectorAll('pre.sequence, pre.seq');
+        for (let i = 0; i < blocks.length; i++) {
+            const block = blocks[i];
+            const parentNode = block.parentNode;
+            const container = document.createElement('div');
+            const id = `js-sequence-diag-${i}`;
+            container.id = id;
+            container.className = 'align-center';
+            container.setAttribute("style", "overFlow-x:auto");
+            parentNode.replaceChild(container, block);
+            const diagram = Diagram.parse(block.childNodes[0].nodeValue);
+            try {
+                diagram.drawSVG(id, window.sequenceDiagramsOptions ? window.sequenceDiagramsOptions : { theme: 'simple' });
+            } catch(e) {
+                parentNode.outerHTML = `<pre class="error">${e}</pre>`
+            }
+        }
+    })();
+    </script>
+{{- end -}}
+{{- end -}}

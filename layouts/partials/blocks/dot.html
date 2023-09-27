@@ -1,0 +1,23 @@
+<!-- graphviz -->
+{{- if or (.Page.Store.Get "hasDot") (.Page.Store.Get "hasGraphviz") -}}
+{{- if and (or .Params.graphviz.enable (and .Site.Params.graphviz.enable (ne .Params.graphviz.enable false))) (or .IsPage .IsHome) -}}
+    {{- $defaultCdnJsSite := "cdnjs.cloudflare.com" -}}
+    <script type="text/javascript" src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/viz.js/1.7.1/viz.js"></script>
+    <script type="text/javascript">
+        String.prototype.replaceAll = function(search, replacement) {
+            var target = this;
+            return target.split(search).join(replacement);
+          };
+          let vizObjects = document.querySelectorAll('pre.graphviz, pre.dot')
+          for (let item of vizObjects) {
+            let svg = undefined
+            try {
+              svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+            } catch(e) {
+              svg = `<pre class="error">${e}</pre>`
+            }
+            item.outerHTML = svg
+          }
+    </script>
+{{- end -}}
+{{- end -}}

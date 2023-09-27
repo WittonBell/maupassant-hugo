@@ -54,70 +54,7 @@
     {{ if .Site.Params.fancybox -}}
     <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
     {{- end -}}
-
-    {{ if .Site.Params.math.katex -}}
-    <link rel="stylesheet" href="https://unpkg.com/katex@0.16.8/dist/katex.min.css"
-        integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
-    <script defer src="https://unpkg.com/katex@0.16.8/dist/katex.min.js"
-        integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
-        crossorigin="anonymous"></script>
-    <script defer src="https://unpkg.com/katex@0.16.8/dist/contrib/auto-render.min.js"
-        integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
-        crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                // customised options
-                // • auto-render specific keys, e.g.:
-                delimiters: [
-                    { left: '$$', right: '$$', display: true },
-                    { left: '$', right: '$', display: false },
-                    { left: '\\(', right: '\\)', display: false },
-                    { left: '\\[', right: '\\]', display: true }
-                ],
-                // • rendering keys, e.g.:
-                throwOnError: false
-            });
-        });
-    </script>
-    {{- else if .Site.Params.math.mathjax -}}
-    <script>
-        MathJax = {
-            loader: {
-                load: [
-                    '[tex]/all-packages',
-                ]
-            },
-            tex: {
-                inlineMath: [['\\(', '\\)']],
-                displayMath: [             // start/end delimiter pairs for display math
-                    ['$$', '$$'],
-                    ['\\[', '\\]']
-                ],
-                processEscapes: true,      // use \$ to produce a literal dollar sign
-                processEnvironments: false, // process \begin{xxx}...\end{xxx} outside math mode
-                processRefs: true,         // process \ref{...} outside of math mode
-                digits: /^(?:[0-9]+(?:\{,\}[0-9]{3})*(?:\.[0-9]*)?|\.[0-9]+)/,
-                // pattern for recognizing numbers
-            },
-            svg: {
-                fontCache: 'global'
-            },
-            options: {
-                enableMenu: false,          // set to false to disable the menu
-                skipHtmlTags: [            //  HTML tags that won't be searched for math
-                    'script', 'noscript', 'style', 'textarea', 'pre',
-                    'code', 'annotation', 'annotation-xml'
-                ],
-                includeHtmlTags: {         //  HTML tags that can appear within math
-                    br: '\n', wbr: '', '#comment': ''
-                }
-            }
-        };
-    </script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-    {{- end }}
+    {{ partial "blocks/math" . }}
     <!-- 前面已经手动添加了 -->
     <!-- {{ template "_internal/opengraph.html" . -}} -->
     <!-- custom css -->
