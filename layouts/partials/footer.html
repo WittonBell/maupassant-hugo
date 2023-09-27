@@ -18,8 +18,7 @@
         </div>
     </div>
 </footer>
-
-{{- if .IsPage -}}
+{{ if .IsPage -}}
     {{- $defaultCdnJsSite := "cdnjs.cloudflare.com" -}}
     {{- if .Page.Store.Get "hasMermaid" -}}
         <!-- Include mermaid only first time -->
@@ -38,7 +37,7 @@
                 return target.split(search).join(replacement);
               };
           
-              let vizObjects = document.querySelectorAll('.graphviz, .dot')
+              let vizObjects = document.querySelectorAll('pre.graphviz, pre.dot')
           
               for (let item of vizObjects) {
                 let svg = undefined
@@ -66,7 +65,7 @@
             {{- end -}}
             (function () {
                 if (!window.flowchart) return;
-                const blocks = document.querySelectorAll('pre code.language-flowchart, pre code.language-flow');
+                const blocks = document.querySelectorAll('pre.flowchart, pre.flow');
                 for (let i = 0; i < blocks.length; i++) {
                     const block = blocks[i];
                     const rootElement = block.parentNode;
@@ -88,6 +87,7 @@
     <!-- js-sequence-diagrams -->
     {{- if .Page.Store.Get "hasSeq" -}}
     {{- if and (or .Params.sequenceDiagrams.enable (and .Site.Params.sequenceDiagrams.enable (ne .Params.sequenceDiagrams.enable false))) (or .IsPage .IsHome) -}}
+        <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/raphael/2.2.8/raphael.min.js" crossorigin="anonymous"></script>
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/webfont/1.6.28/webfontloader.js" crossorigin="anonymous"></script>
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/snap.svg/0.5.1/snap.svg-min.js" crossorigin="anonymous"></script>
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/underscore.js/1.9.1/underscore-min.js" crossorigin="anonymous"></script>
@@ -100,7 +100,7 @@
         {{- end -}}
         (function () {
             if (!window.Diagram) return;
-            const blocks = document.querySelectorAll('pre code.language-sequence');
+            const blocks = document.querySelectorAll('pre.sequence');
             for (let i = 0; i < blocks.length; i++) {
                 const block = blocks[i];
                 // const rootElement = window.Prism.plugins.lineNumbers ? (window.Prism.plugins.toolbar ? block.parentElement.parentElement : block.parentElement) : block;
