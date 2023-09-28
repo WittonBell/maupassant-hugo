@@ -1,13 +1,134 @@
 {{- if .Page.Store.Get "hasDiagon" -}}
-<script src='{{ "js/diagon/diagon.js" | relURL }}'></script>
+{{ partial "blocks/math" .}}
 <script>
     const diagon = {
-            translate: () => { },
-            highlight: () => { },
-            API: () => { },
+        translate: () => { },
+        highlight: () => { },
+        API: () => { },
+    }
+    window.Module = {
+        preRun: [],
+        postRun: [],
+        print: undefined,
+        printErr: undefined,
+        canvas: undefined,
+        onRuntimeInitialized: OnRuntimeInitialized,
+    };
+
+    function OnRuntimeInitialized() {
+        diagon.translate = Module.cwrap('translate', 'string', ['string', 'string', 'string']);
+        diagon.highlight = Module.cwrap('highlight', 'string', ['string', 'string']);
+        diagon.API = Module.cwrap('API', 'string', []);
+
+        let api = diagon.API();
+        tools_data = JSON.parse(api);
+
+        const blocks = document.querySelectorAll('pre.diagon');
+        for (let i = 0; i < blocks.length; i++) {
+            const block = blocks[i];
+            const parentNode = block.parentNode;
+            var txt = ""
+            for (let j = 0; j < block.childNodes.length; j++) {
+                if (block.childNodes[j].nodeValue != null) {
+                    txt += block.childNodes[j].nodeValue
+                } else {
+                    txt += block.childNodes[j].outerHTML
+                }
+            }
+            try {
+                txt = txt.replace('\r\n', '\n')
+                var idx = txt.indexOf('\n')
+                if (idx < 0) {
+                    continue;
+                }
+                var meta = txt.substring(0, idx).trim()
+                var arMeta = meta.split(' ')
+                var type = arMeta[0]
+                var value = txt.substring(idx + 1)
+                var option = ""
+                switch (type) {
+                    case "math":
+                    case "Math":
+                        type = "Math";
+                        option = "style\nLatex\ntransform_math_letters\ntrue\n";
+                        break;
+                    case "Sequence":
+                    case "sequence":
+                    case "seq":
+                        type = "Sequence";
+                        option = "ascii_only\nfalse\ninterpret_backslash_n\ntrue\n";
+                        break;
+                    case "Tree":
+                    case "tree":
+                        type = "Tree";
+                        option = "style\nUnicode 1\n";
+                        break;
+                    case "Table":
+                    case "table":
+                        type = "Table";
+                        option = "style\nUnicode\n";
+                        break;
+                    case "Frame":
+                    case "frame":
+                        type = "Frame";
+                        option = "ascii_only\ntrue\nline_number\ntrue\n";
+                        break
+                    case "GraphDAG":
+                    case "graphDAG":
+                        type = "GraphDAG";
+                        break
+                    case "GraphPlanar":
+                    case "graphPlaner":
+                        type = "GraphPlanar";
+                        option = "ascii_only\nfalse\n";
+                        break;
+                    case "Flowchart":
+                    case "flowchart":
+                        type = "Flowchart"
+                        break;
+                    case "Grammar":
+                    case "grammar":
+                        type = "Grammar";
+                        if (arMeta.length > 1) {
+                            option = "input\n" + arMeta[1].trim() + "\noutput\nhtml5\n"
+                        }
+                        else {
+                            option = "input\nabnf\noutput\nhtml5\n"
+                        }
+                        break;
+                    default:
+                        parentNode.outerHTML = `<pre class="error">unknow tool type:` + type + `</pre>`
+                        continue;
+                }
+                const container = document.createElement('div');
+                const id = `js-diagon-diagrams-${i}`;
+                container.id = id;
+                container.className = 'align-center';
+                container.setAttribute("style", "overFlow-x:auto");
+                var output;
+                try {
+                    output = diagon.translate(type, value, option)
+                } catch (e) {
+                    container.innerHTML = `<pre class="error">${e.message}</pre>`
+                    parentNode.replaceChild(container, block);
+                    continue
+                }
+                if (option.includes("Latex")) {
+                    output = "$$\n" + output + "\n$$"
+                    container.innerText = output
+                } else {
+                    if (option.includes("html") || option.includes("svg")) {
+                        container.innerHTML = output;
+                    } else {
+                        container.innerText = output
+                    }
+                }
+                parentNode.replaceChild(container, block);
+            } catch (e) {
+                parentNode.outerHTML = `<pre class="error">${e}</pre>`
+            }
         }
-    diagon.translate = Module.cwrap('translate', 'string', ['string', 'string', 'string']);
-    diagon.highlight = Module.cwrap('highlight', 'string', ['string', 'string']);
-    diagon.API = Module.cwrap('API', 'string', []);
+    }
 </script>
+<script src='{{ "js/diagon/diagon.js" | relURL }}'></script>
 {{- end -}}

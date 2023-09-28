@@ -1,0 +1,5 @@
+<pre class="{{ .Type }}">
+    {{- .Inner | safeHTML }}
+</pre>
+{{ $Flag := humanize .Type | printf "%s%s" "has"  }}
+{{ .Page.Store.Set $Flag true }}
