@@ -9,7 +9,7 @@
                 <a href="{{ .Permalink }}" title="{{ .Title }}" target="_blank">{{ .Title }}</a>
             </h1>
         </header>
-        {{ partial "post-meta.html" . }}
+        {{ partial "post-meta.html" . -}}
         <div class="post-content">
             {{ .Summary }} ……
         </div>

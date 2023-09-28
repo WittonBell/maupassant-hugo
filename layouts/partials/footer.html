@@ -18,14 +18,14 @@
         </div>
     </div>
 </footer>
-{{ if .IsPage -}}
+{{- if .IsPage -}}
     {{- $defaultCdnJsSite := "cdnjs.cloudflare.com" -}}
-    {{ partial "blocks/mermaid" . }}
-    {{ partial "blocks/dot" . }}
-    {{ partial "blocks/flowchart" . }}
-    {{ partial "blocks/sequence" . }}
-    {{ partial "blocks/echarts" . }}
-    {{ partial "blocks/diagon" . }}
+    {{ partial "blocks/mermaid" . -}}
+    {{ partial "blocks/dot" . -}}
+    {{ partial "blocks/flowchart" . -}}
+    {{ partial "blocks/sequence" . -}}
+    {{ partial "blocks/echarts" . -}}
+    {{ partial "blocks/diagon" . -}}
     {{- if .Site.Params.fancybox -}}
         <script src="//{{ .Site.Params.cdnJsSite | default $defaultCdnJsSite }}/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     {{- end -}}
@@ -39,11 +39,11 @@
     {{ template "_internal/google_analytics.html" . }}
 {{- end -}}
 
-{{ partial "copy_button" . }}
+{{- partial "copy_button" . -}}
 
-{{ if .Site.Params.busuanzi }}
-    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-{{ end }}
+{{- if .Site.Params.busuanzi }}
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+{{- end -}}
 
 <!-- custom js -->
 {{ range .Site.Params.customJS }}

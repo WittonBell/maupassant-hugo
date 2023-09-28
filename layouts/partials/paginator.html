@@ -1,13 +1,11 @@
 {{ with .Paginator }}
-
-
 {{ if gt .TotalPages 10 }}
 <ol class="page-navigator">
-    {{ if .HasPrev }}
+    {{- if .HasPrev -}}
     <li class="prev">
         <a href="{{ .Prev.URL | absLangURL }}">{{ i18n "previous" }}</a>
     </li>
-    {{ end }}
+    {{- end -}}
 
     {{ $dynamicPages := slice 1 }}
 
@@ -45,9 +43,7 @@
         {{ end }}
     {{ end }}
 
-    {{ if .HasNext }}
-
-
+    {{- if .HasNext -}}
     <li class="next">
         <a href="{{ .Next.URL | absLangURL }}">{{ i18n "next" }}</a>
     </li>
@@ -74,6 +70,5 @@
     </li>
     {{ end }}
 </ol>
-{{ end }}
-
-{{ end }}
+{{- end -}}
+{{- end -}}
