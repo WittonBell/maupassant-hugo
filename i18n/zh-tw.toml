@@ -49,6 +49,9 @@
   [minutes]
     other = "分鐘"
 
+  [author]
+    other = "作者："
+
 # END: Base
 
 # BGN: Theme

@@ -51,6 +51,9 @@
   [minutes]
     other = "minutes"
 
+  [author]
+    other = "By:"
+
 # END: Base
 
 # BGN: Theme

@@ -4,6 +4,9 @@
     {{- time.Format $datetime_format .PublishDate -}}
   </time>
 {{- end -}}
+{{ if .Params.author }}
+<span class="post-meta meta-category">&nbsp;|&nbsp; {{ i18n "author" }} {{ .Params.author }}</span>
+{{ end }}
 {{- with .Params.Categories -}}
 <div class="post-meta meta-category">
   <span>&nbsp;|&nbsp;</span>

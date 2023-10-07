@@ -52,8 +52,8 @@
 
     {{ if .Site.Params.fancybox -}}
     <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
-    {{- end -}}
-    {{- partial "blocks/math" . -}}
+    {{- end }}
+    {{ partial "blocks/math" . -}}
     <!-- 前面已经手动添加了 -->
     <!-- {{ template "_internal/opengraph.html" . -}} -->
     <!-- custom css -->
