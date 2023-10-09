@@ -171,7 +171,8 @@ blockquote {
     border-left: none;
 }
 blockquote::before{
-    content: "\201C";
+    /*content: "\201C";*/
+    content: "";
     display: block;
     font-family: times;
     font-style: normal;
