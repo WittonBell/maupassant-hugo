@@ -16,6 +16,7 @@
         {{ if .Site.Params.Gitalk.proxy -}}
         proxy: '{{ .Site.Params.Gitalk.proxy }}',
         {{ end -}}
+        pagerDirection: {{ .Site.Params.Gitalk.pagerDirection }},
         createIssueManually: {{ .Site.Params.Gitalk.createIssueManually }},
         distractionFreeMode: {{ .Site.Params.Gitalk.distractionFreeMode }} // Facebook-like distraction free mode
     });
